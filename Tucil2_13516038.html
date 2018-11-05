@@ -13130,13 +13130,24 @@ div#notebook {
 2. Pembacaan Dataset Training
     2.1 Dataset Iris
     2.2 Dataset Play Tennis
-3. Pembelajaran
+3. Pembelajaran Dataset Iris dengan Skema Full Training 
     3.1 Naïve Bayes
     3.2 DTL
     3.3 kNN
     3.4 Neural Network MLP
-4. Penyimpanan Model ke File External
-5. Sumber</code></pre>
+4. Pembelajaran Dataset Iris dengan Skema Split Training 90%, test 10%, dan menampilkan kinerja serta confusion matrix
+    4.1 Membagi dataset menjadi 10% untuk Test
+    4.2 Naïve Bayes
+    4.3 DTL
+    4.4 kNN
+    4.5 Neural Network MLP
+5. Pembelajaran Dataset Iris dengan Skema 10-Fold Cross Validation, dan menampilkan kinerjanya.
+    5.1 Naïve Bayes
+    5.2 DTL
+    5.3 kNN
+    5.4 Neural Network MLP
+6. Penyimpanan Model ke File External
+7. Sumber</code></pre>
 
 </div>
 </div>
@@ -13150,12 +13161,19 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[251]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Import library yang dibutuhkan untuk pembelajaran</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Import library untuk proses data</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Ellipse</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c1">#Import library yang dibutuhkan untuk pembelajaran</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">neighbors</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
 </pre></div>
 
@@ -13166,10 +13184,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[252]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">gnb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Declare function as variable for classifier</span>
+<span class="n">gnb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">kNN</span> <span class="o">=</span> <span class="n">neighbors</span><span class="o">.</span><span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13193,7 +13213,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[253]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
@@ -13213,7 +13233,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[254]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span>
@@ -13229,7 +13249,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[17]:</div>
+    <div class="prompt output_prompt">Out[254]:</div>
 
 
 
@@ -13402,7 +13422,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[255]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">target</span>
@@ -13418,7 +13438,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[255]:</div>
 
 
 
@@ -13453,9 +13473,22 @@ div#notebook {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Karena training data berbentuk string maka harus dirubah menjadi bentuk integer dengan masing-masing fitur:</p>
+<p>outlook: {'sunny':0,'rainy':1,'overcast':2}<br>
+temperature: {'hot':0,'mild':1,'cool':2}<br>
+humidity: {'normal':0,'high':1}<br>
+windy: {'FALSE':0, 'TRUE':1}<br>
+play: {'no':0,'yes':1}</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[256]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Lokasi dapat diganti sesuai dengan lokasi file csv di direktori anda</span>
@@ -13465,7 +13498,7 @@ div#notebook {
                   <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;outlook&#39;</span><span class="p">,</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;windy&#39;</span><span class="p">,</span><span class="s1">&#39;play&#39;</span><span class="p">])</span>
 <span class="n">dfpt</span> <span class="o">=</span> <span class="n">dfpt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
-<span class="c1">#Convert obj to int for prediction</span>
+<span class="c1">#Convert str to int for prediction</span>
 <span class="n">dfpt</span><span class="p">[</span><span class="s1">&#39;outlook&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">outlook</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;sunny&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;rainy&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;overcast&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
 <span class="n">dfpt</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">temperature</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;hot&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;mild&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;cool&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
 <span class="n">dfpt</span><span class="p">[</span><span class="s1">&#39;humidity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">humidity</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;normal&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
@@ -13485,7 +13518,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[19]:</div>
+    <div class="prompt output_prompt">Out[256]:</div>
 
 
 
@@ -13641,7 +13674,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[257]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfpt_data</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -13658,7 +13691,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[20]:</div>
+    <div class="prompt output_prompt">Out[257]:</div>
 
 
 
@@ -13695,7 +13728,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[258]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfpt_target</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
@@ -13712,7 +13745,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[21]:</div>
+    <div class="prompt output_prompt">Out[258]:</div>
 
 
 
@@ -13730,32 +13763,32 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Pembelajaran">3. Pembelajaran<a class="anchor-link" href="#3.-Pembelajaran">&#182;</a></h2>
+<h2 id="3.-Pembelajaran-Dataset-Iris-dengan-Skema-Full-Training">3. Pembelajaran Dataset Iris dengan Skema Full Training<a class="anchor-link" href="#3.-Pembelajaran-Dataset-Iris-dengan-Skema-Full-Training">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="3.1-Pembelajaran-dengan-Na&#239;ve-Bayes">3.1 Pembelajaran dengan Na&#239;ve Bayes<a class="anchor-link" href="#3.1-Pembelajaran-dengan-Na&#239;ve-Bayes">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Melakukan pembelajaran Naïve Bayes pada dataset iris</p>
-
+<h3 id="3.1-Na&#239;ve-Bayes">3.1 Na&#239;ve Bayes<a class="anchor-link" href="#3.1-Na&#239;ve-Bayes">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[259]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">pred_iris</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-<span class="n">pred_iris</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Model: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas tiap kelas: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">)</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata fitur per kelas: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">theta_</span><span class="p">)</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas tiap fitur bila diberikan kelas: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">sigma_</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13768,17 +13801,512 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[22]:</div>
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: 
+Probabilitas tiap kelas: 
+[0.33333333 0.33333333 0.33333333]
+
+Rata-rata fitur per kelas: 
+[[5.006 3.418 1.464 0.244]
+ [5.936 2.77  4.26  1.326]
+ [6.588 2.974 5.552 2.026]]
+
+Probabilitas tiap fitur bila diberikan kelas: 
+[[0.121764 0.142276 0.029504 0.011264]
+ [0.261104 0.0965   0.2164   0.038324]
+ [0.396256 0.101924 0.298496 0.073924]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.2-Decision-Tree-Learning">3.2 Decision Tree Learning<a class="anchor-link" href="#3.2-Decision-Tree-Learning">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.3-kNN">3.3 <em>kNN</em><a class="anchor-link" href="#3.3-kNN">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pada <em>k-Nearest Neighbor</em> (<em>kNN</em>) tidak menghasilkan model.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[260]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[260]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>GaussianNB(priors=None)</pre>
+<pre>KNeighborsClassifier(algorithm=&#39;auto&#39;, leaf_size=30, metric=&#39;minkowski&#39;,
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights=&#39;uniform&#39;)</pre>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.4-Neural-Network-MLP">3.4 Neural Network MLP<a class="anchor-link" href="#3.4-Neural-Network-MLP">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.-Pembelajaran-Dataset-Iris-dengan-Skema-Split-Training-90%,-Test-10%,-dan-Menampilkan-kinerja-serta-confusion-matrix">4. Pembelajaran Dataset Iris dengan Skema Split Training 90%, Test 10%, dan Menampilkan kinerja serta confusion matrix<a class="anchor-link" href="#4.-Pembelajaran-Dataset-Iris-dengan-Skema-Split-Training-90%,-Test-10%,-dan-Menampilkan-kinerja-serta-confusion-matrix">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.1-Membagi-dataset-menjadi-10%-untuk-Test">4.1 Membagi dataset menjadi 10% untuk Test<a class="anchor-link" href="#4.1-Membagi-dataset-menjadi-10%-untuk-Test">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[261]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.2-Na&#239;ve-Bayes">4.2 Na&#239;ve Bayes<a class="anchor-link" href="#4.2-Na&#239;ve-Bayes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[262]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">bayes_model</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_bayes</span> <span class="o">=</span> <span class="n">bayes_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_bayes</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred_bayes</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
+
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_bayes</span><span class="p">))</span>  
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Kinerja: 
+	1. Akurasi: 93.333333%
+	2. Presisi tiap kelas:
+		setosa: 100.0%
+		versicolor: 75.0%
+		virginica: 100.0%
+
+
+Confusion Matrix: 
+[[4 0 0]
+ [0 3 0]
+ [0 1 7]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.3-Decision-Tree-Learning">4.3 Decision Tree Learning<a class="anchor-link" href="#4.3-Decision-Tree-Learning">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.4-kNN">4.4 <em>kNN</em><a class="anchor-link" href="#4.4-kNN">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[263]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_knn</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_knn</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred_knn</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
+
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_bayes</span><span class="p">))</span>  
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Kinerja: 
+	1. Akurasi: 93.333333%
+	2. Presisi tiap kelas:
+		setosa: 100.0%
+		versicolor: 75.0%
+		virginica: 100.0%
+
+
+Confusion Matrix: 
+[[4 0 0]
+ [0 3 0]
+ [0 1 7]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.5-Neural-Network-MLP">4.5 Neural Network MLP<a class="anchor-link" href="#4.5-Neural-Network-MLP">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.-Pembelajaran-Dataset-Iris-dengan-Skema-10-Fold-Cross-Validation,-dan-menampilkan-kinerjanya.">5. Pembelajaran Dataset Iris dengan Skema 10-Fold Cross Validation, dan menampilkan kinerjanya.<a class="anchor-link" href="#5.-Pembelajaran-Dataset-Iris-dengan-Skema-10-Fold-Cross-Validation,-dan-menampilkan-kinerjanya.">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.1-Na&#239;ve-Bayes">5.1 Na&#239;ve Bayes<a class="anchor-link" href="#5.1-Na&#239;ve-Bayes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[264]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Kinerja: 
+Fold ke-1 = 0.933333
+Fold ke-2 = 0.933333
+Fold ke-3 = 1.000000
+Fold ke-4 = 0.933333
+Fold ke-5 = 0.933333
+Fold ke-6 = 0.933333
+Fold ke-7 = 0.866667
+Fold ke-8 = 1.000000
+Fold ke-9 = 1.000000
+Fold ke-10 = 1.000000
+
+Rata-rata = 0.953333
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.2-Decision-Tree-Learning">5.2 Decision Tree Learning<a class="anchor-link" href="#5.2-Decision-Tree-Learning">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.3-kNN">5.3 <em>kNN</em><a class="anchor-link" href="#5.3-kNN">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[265]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">kNN</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Kinerja: 
+Fold ke-1 = 1.000000
+Fold ke-2 = 0.933333
+Fold ke-3 = 1.000000
+Fold ke-4 = 1.000000
+Fold ke-5 = 0.866667
+Fold ke-6 = 0.933333
+Fold ke-7 = 0.933333
+Fold ke-8 = 1.000000
+Fold ke-9 = 1.000000
+Fold ke-10 = 1.000000
+
+Rata-rata = 0.966667
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.4-Neural-Network-MLP">5.4 Neural Network MLP<a class="anchor-link" href="#5.4-Neural-Network-MLP">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="6.-Penyimpanan-Model-ke-File-External">6. Penyimpanan Model ke File External<a class="anchor-link" href="#6.-Penyimpanan-Model-ke-File-External">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="7.-Sumber">7. Sumber<a class="anchor-link" href="#7.-Sumber">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 
