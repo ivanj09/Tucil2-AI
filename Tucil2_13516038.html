@@ -13147,7 +13147,14 @@ div#notebook {
     5.3 kNN
     5.4 Neural Network MLP
 6. Penyimpanan Model ke File External
-7. Sumber</code></pre>
+7. Membaca model dari File External
+8. Membuat Instance Baru dengan memberikan nilai pada Atribut
+9. Klasifikasi menggunakan Model
+    9.1 Naïve Bayes
+    9.2 DTL
+    9.3 kNN
+    9.4 Neural Network MLP
+10. Sumber</code></pre>
 
 </div>
 </div>
@@ -13164,20 +13171,20 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Import library untuk proses data</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="k">import</span> <span class="n">Ellipse</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Import library untuk proses data</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Ellipse</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="c1">#Import library yang dibutuhkan untuk pembelajaran</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">tree</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="k">import</span> <span class="n">GaussianNB</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
 <span class="kn">import</span> <span class="nn">graphviz</span> 
-<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="k">import</span> <span class="n">MLPClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
+<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="kn">import</span> <span class="n">joblib</span>
 </pre></div>
 
     </div>
@@ -13190,7 +13197,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gnb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">gnb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
 <span class="n">dtl</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
 <span class="n">kNN</span> <span class="o">=</span> <span class="n">neighbors</span><span class="o">.</span><span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
 <span class="n">mlp</span> <span class="o">=</span> <span class="n">MLPClassifier</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
@@ -13221,7 +13228,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfiris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13241,7 +13248,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">feature_names</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">feature_names</span>
 </pre></div>
 
     </div>
@@ -13284,7 +13291,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 
     </div>
@@ -13337,10 +13344,10 @@ div#notebook {
        [5.4, 3.4, 1.5, 0.4],
        [5.2, 4.1, 1.5, 0.1],
        [5.5, 4.2, 1.4, 0.2],
-       [4.9, 3.1, 1.5, 0.2],
+       [4.9, 3.1, 1.5, 0.1],
        [5. , 3.2, 1.2, 0.2],
        [5.5, 3.5, 1.3, 0.2],
-       [4.9, 3.6, 1.4, 0.1],
+       [4.9, 3.1, 1.5, 0.1],
        [4.4, 3. , 1.3, 0.2],
        [5.1, 3.4, 1.5, 0.2],
        [5. , 3.5, 1.3, 0.3],
@@ -13473,7 +13480,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">target</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfiris</span><span class="o">.</span><span class="n">target</span>
 </pre></div>
 
     </div>
@@ -13539,11 +13546,11 @@ play: {'no':0,'yes':1}</p>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Lokasi dapat diganti sesuai dengan lokasi file csv di direktori anda</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Lokasi dapat diganti sesuai dengan lokasi file csv di direktori anda</span>
 <span class="c1">#/home/alghifari/Documents/Tucil2-AI/weather.nominal.csv</span>
-<span class="n">dfpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/home/alghifari/Documents/Tucil2-AI/weather.nominal.csv&#39;</span><span class="p">,</span>
+<span class="n">dfpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/home/mark/Documents/File Semester 5/Artificial Intelligence/Tucil 2/weather.nominal.csv&#39;</span><span class="p">,</span>
                   <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
-                  <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                   <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;outlook&#39;</span><span class="p">,</span><span class="s1">&#39;temperature&#39;</span><span class="p">,</span> <span class="s1">&#39;humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;windy&#39;</span><span class="p">,</span><span class="s1">&#39;play&#39;</span><span class="p">])</span>
 <span class="n">dfpt</span> <span class="o">=</span> <span class="n">dfpt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
@@ -13726,7 +13733,7 @@ play: {'no':0,'yes':1}</p>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfpt_data</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfpt_data</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">dfpt_data</span>
 </pre></div>
 
@@ -13780,7 +13787,7 @@ play: {'no':0,'yes':1}</p>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfpt_target</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dfpt_target</span> <span class="o">=</span> <span class="n">dfpt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 <span class="n">dfpt_target</span>
 </pre></div>
 
@@ -13828,16 +13835,16 @@ play: {'no':0,'yes':1}</p>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas tiap kelas: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">)</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata fitur per kelas: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">theta_</span><span class="p">)</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas tiap fitur bila diberikan kelas: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">sigma_</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Model: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas tiap kelas: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">)</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata fitur per kelas: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">theta_</span><span class="p">)</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Probabilitas tiap fitur bila diberikan kelas: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">sigma_</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13857,12 +13864,14 @@ play: {'no':0,'yes':1}</p>
 <pre>Model: 
 Probabilitas tiap kelas: 
 [0.33333333 0.33333333 0.33333333]
+
 Rata-rata fitur per kelas: 
-[[5.006 3.428 1.462 0.246]
+[[5.006 3.418 1.464 0.244]
  [5.936 2.77  4.26  1.326]
  [6.588 2.974 5.552 2.026]]
+
 Probabilitas tiap fitur bila diberikan kelas: 
-[[0.121764 0.140816 0.029556 0.010884]
+[[0.121764 0.142276 0.029504 0.011264]
  [0.261104 0.0965   0.2164   0.038324]
  [0.396256 0.101924 0.298496 0.073924]]
 </pre>
@@ -13885,13 +13894,13 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dtl_model</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dtl_model</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
 
-<span class="n">dot_data</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">dtl_model</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+<span class="n">dot_data</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">dtl_model</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
                          <span class="n">feature_names</span><span class="o">=</span><span class="n">dfiris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span>  
                          <span class="n">class_names</span><span class="o">=</span><span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">,</span>  
-                         <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  
-                         <span class="n">special_characters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                         <span class="n">filled</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  
+                         <span class="n">special_characters</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">graph</span> <span class="o">=</span> <span class="n">graphviz</span><span class="o">.</span><span class="n">Source</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
 </pre></div>
@@ -13906,7 +13915,7 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Export to iris_dtl.pdf</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Export to iris_dtl.pdf</span>
 <span class="n">graph</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;iris_dtl&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -13940,7 +13949,7 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Visualize decision tree learning model</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Visualize decision tree learning model</span>
 <span class="n">graph</span> 
 </pre></div>
 
@@ -13965,269 +13974,269 @@ Probabilitas tiap fitur bila diberikan kelas:
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: Tree Pages: 1 -->
-<svg width="999pt" height="671pt"
- viewBox="0.00 0.00 999.00 671.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="857pt" height="671pt"
+ viewBox="0.00 0.00 857.00 671.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 667)">
 <title>Tree</title>
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-667 995,-667 995,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-667 853,-667 853,4 -4,4"/>
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
-<path fill="transparent" stroke="#000000" d="M596.5,-663C596.5,-663 444.5,-663 444.5,-663 438.5,-663 432.5,-657 432.5,-651 432.5,-651 432.5,-592 432.5,-592 432.5,-586 438.5,-580 444.5,-580 444.5,-580 596.5,-580 596.5,-580 602.5,-580 608.5,-586 608.5,-592 608.5,-592 608.5,-651 608.5,-651 608.5,-657 602.5,-663 596.5,-663"/>
-<text text-anchor="start" x="440.5" y="-647.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 0.8</text>
-<text text-anchor="start" x="476.5" y="-632.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.667</text>
-<text text-anchor="start" x="466" y="-617.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 150</text>
-<text text-anchor="start" x="449" y="-602.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [50, 50, 50]</text>
-<text text-anchor="start" x="468.5" y="-587.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = setosa</text>
+<path fill="transparent" stroke="#000000" d="M517.5,-663C517.5,-663 381.5,-663 381.5,-663 375.5,-663 369.5,-657 369.5,-651 369.5,-651 369.5,-592 369.5,-592 369.5,-586 375.5,-580 381.5,-580 381.5,-580 517.5,-580 517.5,-580 523.5,-580 529.5,-586 529.5,-592 529.5,-592 529.5,-651 529.5,-651 529.5,-657 523.5,-663 517.5,-663"/>
+<text text-anchor="start" x="377.5" y="-647.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal length (cm) ≤ 2.45</text>
+<text text-anchor="start" x="414" y="-632.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.667</text>
+<text text-anchor="start" x="404.5" y="-617.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 150</text>
+<text text-anchor="start" x="391.5" y="-602.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [50, 50, 50]</text>
+<text text-anchor="start" x="406" y="-587.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = setosa</text>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
 <title>1</title>
-<path fill="#e58139" stroke="#000000" d="M489,-536.5C489,-536.5 372,-536.5 372,-536.5 366,-536.5 360,-530.5 360,-524.5 360,-524.5 360,-480.5 360,-480.5 360,-474.5 366,-468.5 372,-468.5 372,-468.5 489,-468.5 489,-468.5 495,-468.5 501,-474.5 501,-480.5 501,-480.5 501,-524.5 501,-524.5 501,-530.5 495,-536.5 489,-536.5"/>
-<text text-anchor="start" x="395.5" y="-521.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="380.5" y="-506.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 50</text>
-<text text-anchor="start" x="368" y="-491.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [50, 0, 0]</text>
-<text text-anchor="start" x="378.5" y="-476.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = setosa</text>
+<path fill="#e58139" stroke="#000000" d="M419,-536.5C419,-536.5 326,-536.5 326,-536.5 320,-536.5 314,-530.5 314,-524.5 314,-524.5 314,-480.5 314,-480.5 314,-474.5 320,-468.5 326,-468.5 326,-468.5 419,-468.5 419,-468.5 425,-468.5 431,-474.5 431,-480.5 431,-480.5 431,-524.5 431,-524.5 431,-530.5 425,-536.5 419,-536.5"/>
+<text text-anchor="start" x="344.5" y="-521.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="331.5" y="-506.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 50</text>
+<text text-anchor="start" x="322" y="-491.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [50, 0, 0]</text>
+<text text-anchor="start" x="329" y="-476.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = setosa</text>
 </g>
 <!-- 0&#45;&gt;1 -->
 <g id="edge1" class="edge">
 <title>0&#45;&gt;1</title>
-<path fill="none" stroke="#000000" d="M489.0224,-579.8796C480.4565,-568.5536 471.17,-556.2748 462.5717,-544.9058"/>
-<polygon fill="#000000" stroke="#000000" points="465.2762,-542.6795 456.4525,-536.8149 459.6931,-546.902 465.2762,-542.6795"/>
-<text text-anchor="middle" x="453.0165" y="-557.8777" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">True</text>
+<path fill="none" stroke="#000000" d="M422.5691,-579.8796C415.3117,-568.6636 407.4497,-556.5131 400.1535,-545.2372"/>
+<polygon fill="#000000" stroke="#000000" points="403.0748,-543.3093 394.7038,-536.8149 397.1978,-547.112 403.0748,-543.3093"/>
+<text text-anchor="middle" x="389.4656" y="-557.56" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">True</text>
 </g>
 <!-- 2 -->
 <g id="node3" class="node">
 <title>2</title>
-<path fill="transparent" stroke="#000000" d="M692,-544C692,-544 531,-544 531,-544 525,-544 519,-538 519,-532 519,-532 519,-473 519,-473 519,-467 525,-461 531,-461 531,-461 692,-461 692,-461 698,-461 704,-467 704,-473 704,-473 704,-532 704,-532 704,-538 698,-544 692,-544"/>
-<text text-anchor="start" x="527" y="-528.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 1.75</text>
-<text text-anchor="start" x="576.5" y="-513.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.5</text>
-<text text-anchor="start" x="557" y="-498.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 100</text>
-<text text-anchor="start" x="544.5" y="-483.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 50, 50]</text>
-<text text-anchor="start" x="548" y="-468.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
+<path fill="transparent" stroke="#000000" d="M592,-544C592,-544 461,-544 461,-544 455,-544 449,-538 449,-532 449,-532 449,-473 449,-473 449,-467 455,-461 461,-461 461,-461 592,-461 592,-461 598,-461 604,-467 604,-473 604,-473 604,-532 604,-532 604,-538 598,-544 592,-544"/>
+<text text-anchor="start" x="457" y="-528.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 1.75</text>
+<text text-anchor="start" x="498.5" y="-513.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.5</text>
+<text text-anchor="start" x="481.5" y="-498.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 100</text>
+<text text-anchor="start" x="472" y="-483.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 50, 50]</text>
+<text text-anchor="start" x="474" y="-468.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 0&#45;&gt;2 -->
 <g id="edge2" class="edge">
 <title>0&#45;&gt;2</title>
-<path fill="none" stroke="#000000" d="M552.3274,-579.8796C559.1457,-570.9633 566.4156,-561.4565 573.4421,-552.268"/>
-<polygon fill="#000000" stroke="#000000" points="576.2425,-554.3678 579.5368,-544.2981 570.682,-550.1156 576.2425,-554.3678"/>
-<text text-anchor="middle" x="582.8409" y="-565.3788" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">False</text>
+<path fill="none" stroke="#000000" d="M476.4309,-579.8796C482.0837,-571.1434 488.1033,-561.8404 493.9366,-552.8253"/>
+<polygon fill="#000000" stroke="#000000" points="496.9601,-554.5952 499.4542,-544.2981 491.0831,-550.7924 496.9601,-554.5952"/>
+<text text-anchor="middle" x="504.6924" y="-565.0431" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">False</text>
 </g>
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
-<path fill="#39e581" fill-opacity="0.898039" stroke="#000000" d="M565,-425C565,-425 398,-425 398,-425 392,-425 386,-419 386,-413 386,-413 386,-354 386,-354 386,-348 392,-342 398,-342 398,-342 565,-342 565,-342 571,-342 577,-348 577,-354 577,-354 577,-413 577,-413 577,-419 571,-425 565,-425"/>
-<text text-anchor="start" x="394" y="-409.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal length (cm) ≤ 4.95</text>
-<text text-anchor="start" x="437.5" y="-394.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.168</text>
-<text text-anchor="start" x="431.5" y="-379.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 54</text>
-<text text-anchor="start" x="419" y="-364.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 49, 5]</text>
-<text text-anchor="start" x="418" y="-349.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
+<path fill="#39e581" fill-opacity="0.898039" stroke="#000000" d="M482.5,-425C482.5,-425 346.5,-425 346.5,-425 340.5,-425 334.5,-419 334.5,-413 334.5,-413 334.5,-354 334.5,-354 334.5,-348 340.5,-342 346.5,-342 346.5,-342 482.5,-342 482.5,-342 488.5,-342 494.5,-348 494.5,-354 494.5,-354 494.5,-413 494.5,-413 494.5,-419 488.5,-425 482.5,-425"/>
+<text text-anchor="start" x="342.5" y="-409.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal length (cm) ≤ 4.95</text>
+<text text-anchor="start" x="379" y="-394.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.168</text>
+<text text-anchor="start" x="373.5" y="-379.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 54</text>
+<text text-anchor="start" x="364" y="-364.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 49, 5]</text>
+<text text-anchor="start" x="362" y="-349.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 2&#45;&gt;3 -->
 <g id="edge3" class="edge">
 <title>2&#45;&gt;3</title>
-<path fill="none" stroke="#000000" d="M566.0323,-460.8796C555.8983,-451.6031 545.066,-441.6874 534.6535,-432.1559"/>
-<polygon fill="#000000" stroke="#000000" points="536.9013,-429.4685 527.1618,-425.2981 532.1748,-434.6319 536.9013,-429.4685"/>
+<path fill="none" stroke="#000000" d="M487.3278,-460.8796C478.7665,-451.7832 469.6268,-442.0722 460.8168,-432.7116"/>
+<polygon fill="#000000" stroke="#000000" points="463.2417,-430.1813 453.8394,-425.2981 458.1443,-434.9789 463.2417,-430.1813"/>
 </g>
 <!-- 12 -->
 <g id="node13" class="node">
 <title>12</title>
-<path fill="#8139e5" fill-opacity="0.976471" stroke="#000000" d="M826,-425C826,-425 659,-425 659,-425 653,-425 647,-419 647,-413 647,-413 647,-354 647,-354 647,-348 653,-342 659,-342 659,-342 826,-342 826,-342 832,-342 838,-348 838,-354 838,-354 838,-413 838,-413 838,-419 832,-425 826,-425"/>
-<text text-anchor="start" x="655" y="-409.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal length (cm) ≤ 4.85</text>
-<text text-anchor="start" x="698.5" y="-394.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.043</text>
-<text text-anchor="start" x="692.5" y="-379.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 46</text>
-<text text-anchor="start" x="680" y="-364.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 1, 45]</text>
-<text text-anchor="start" x="684" y="-349.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" fill-opacity="0.976471" stroke="#000000" d="M706.5,-425C706.5,-425 570.5,-425 570.5,-425 564.5,-425 558.5,-419 558.5,-413 558.5,-413 558.5,-354 558.5,-354 558.5,-348 564.5,-342 570.5,-342 570.5,-342 706.5,-342 706.5,-342 712.5,-342 718.5,-348 718.5,-354 718.5,-354 718.5,-413 718.5,-413 718.5,-419 712.5,-425 706.5,-425"/>
+<text text-anchor="start" x="566.5" y="-409.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal length (cm) ≤ 4.85</text>
+<text text-anchor="start" x="603" y="-394.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.043</text>
+<text text-anchor="start" x="597.5" y="-379.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 46</text>
+<text text-anchor="start" x="588" y="-364.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 1, 45]</text>
+<text text-anchor="start" x="590" y="-349.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 2&#45;&gt;12 -->
 <g id="edge12" class="edge">
 <title>2&#45;&gt;12</title>
-<path fill="none" stroke="#000000" d="M657.3174,-460.8796C667.5294,-451.6031 678.445,-441.6874 688.9376,-432.1559"/>
-<polygon fill="#000000" stroke="#000000" points="691.4384,-434.6127 696.487,-425.2981 686.7316,-429.4313 691.4384,-434.6127"/>
+<path fill="none" stroke="#000000" d="M565.6722,-460.8796C574.2335,-451.7832 583.3732,-442.0722 592.1832,-432.7116"/>
+<polygon fill="#000000" stroke="#000000" points="594.8557,-434.9789 599.1606,-425.2981 589.7583,-430.1813 594.8557,-434.9789"/>
 </g>
 <!-- 4 -->
 <g id="node5" class="node">
 <title>4</title>
-<path fill="#39e581" fill-opacity="0.980392" stroke="#000000" d="M308,-306C308,-306 147,-306 147,-306 141,-306 135,-300 135,-294 135,-294 135,-235 135,-235 135,-229 141,-223 147,-223 147,-223 308,-223 308,-223 314,-223 320,-229 320,-235 320,-235 320,-294 320,-294 320,-300 314,-306 308,-306"/>
-<text text-anchor="start" x="143" y="-290.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 1.65</text>
-<text text-anchor="start" x="183.5" y="-275.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.041</text>
-<text text-anchor="start" x="177.5" y="-260.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 48</text>
-<text text-anchor="start" x="165" y="-245.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 47, 1]</text>
-<text text-anchor="start" x="164" y="-230.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
+<path fill="#39e581" fill-opacity="0.980392" stroke="#000000" d="M261,-306C261,-306 130,-306 130,-306 124,-306 118,-300 118,-294 118,-294 118,-235 118,-235 118,-229 124,-223 130,-223 130,-223 261,-223 261,-223 267,-223 273,-229 273,-235 273,-235 273,-294 273,-294 273,-300 267,-306 261,-306"/>
+<text text-anchor="start" x="126" y="-290.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 1.65</text>
+<text text-anchor="start" x="160" y="-275.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.041</text>
+<text text-anchor="start" x="154.5" y="-260.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 48</text>
+<text text-anchor="start" x="145" y="-245.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 47, 1]</text>
+<text text-anchor="start" x="143" y="-230.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 3&#45;&gt;4 -->
 <g id="edge4" class="edge">
 <title>3&#45;&gt;4</title>
-<path fill="none" stroke="#000000" d="M392.6631,-341.8796C370.9109,-331.6886 347.512,-320.7261 325.3629,-310.3492"/>
-<polygon fill="#000000" stroke="#000000" points="326.8271,-307.1701 316.2867,-306.0969 323.8573,-313.5089 326.8271,-307.1701"/>
+<path fill="none" stroke="#000000" d="M337.9044,-341.8796C319.483,-331.8697 299.6918,-321.1156 280.8974,-310.9031"/>
+<polygon fill="#000000" stroke="#000000" points="282.51,-307.7961 272.0523,-306.0969 279.1679,-313.9468 282.51,-307.7961"/>
 </g>
 <!-- 7 -->
 <g id="node8" class="node">
 <title>7</title>
-<path fill="#8139e5" fill-opacity="0.498039" stroke="#000000" d="M562,-306C562,-306 401,-306 401,-306 395,-306 389,-300 389,-294 389,-294 389,-235 389,-235 389,-229 395,-223 401,-223 401,-223 562,-223 562,-223 568,-223 574,-229 574,-235 574,-235 574,-294 574,-294 574,-300 568,-306 562,-306"/>
-<text text-anchor="start" x="397" y="-290.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 1.55</text>
-<text text-anchor="start" x="437.5" y="-275.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.444</text>
-<text text-anchor="start" x="436" y="-260.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 6</text>
-<text text-anchor="start" x="423.5" y="-245.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 2, 4]</text>
-<text text-anchor="start" x="423" y="-230.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" fill-opacity="0.498039" stroke="#000000" d="M480,-306C480,-306 349,-306 349,-306 343,-306 337,-300 337,-294 337,-294 337,-235 337,-235 337,-229 343,-223 349,-223 349,-223 480,-223 480,-223 486,-223 492,-229 492,-235 492,-235 492,-294 492,-294 492,-300 486,-306 480,-306"/>
+<text text-anchor="start" x="345" y="-290.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">petal width (cm) ≤ 1.55</text>
+<text text-anchor="start" x="379" y="-275.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.444</text>
+<text text-anchor="start" x="377" y="-260.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 6</text>
+<text text-anchor="start" x="367.5" y="-245.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 2, 4]</text>
+<text text-anchor="start" x="366" y="-230.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 3&#45;&gt;7 -->
 <g id="edge7" class="edge">
 <title>3&#45;&gt;7</title>
-<path fill="none" stroke="#000000" d="M481.5,-341.8796C481.5,-333.6838 481.5,-324.9891 481.5,-316.5013"/>
-<polygon fill="#000000" stroke="#000000" points="485.0001,-316.298 481.5,-306.2981 478.0001,-316.2981 485.0001,-316.298"/>
+<path fill="none" stroke="#000000" d="M414.5,-341.8796C414.5,-333.6838 414.5,-324.9891 414.5,-316.5013"/>
+<polygon fill="#000000" stroke="#000000" points="418.0001,-316.298 414.5,-306.2981 411.0001,-316.2981 418.0001,-316.298"/>
 </g>
 <!-- 5 -->
 <g id="node6" class="node">
 <title>5</title>
-<path fill="#39e581" stroke="#000000" d="M131,-179.5C131,-179.5 12,-179.5 12,-179.5 6,-179.5 0,-173.5 0,-167.5 0,-167.5 0,-123.5 0,-123.5 0,-117.5 6,-111.5 12,-111.5 12,-111.5 131,-111.5 131,-111.5 137,-111.5 143,-117.5 143,-123.5 143,-123.5 143,-167.5 143,-167.5 143,-173.5 137,-179.5 131,-179.5"/>
-<text text-anchor="start" x="36.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="21.5" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 47</text>
-<text text-anchor="start" x="9" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 47, 0]</text>
+<path fill="#39e581" stroke="#000000" d="M109,-179.5C109,-179.5 12,-179.5 12,-179.5 6,-179.5 0,-173.5 0,-167.5 0,-167.5 0,-123.5 0,-123.5 0,-117.5 6,-111.5 12,-111.5 12,-111.5 109,-111.5 109,-111.5 115,-111.5 121,-117.5 121,-123.5 121,-123.5 121,-167.5 121,-167.5 121,-173.5 115,-179.5 109,-179.5"/>
+<text text-anchor="start" x="32.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="19.5" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 47</text>
+<text text-anchor="start" x="10" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 47, 0]</text>
 <text text-anchor="start" x="8" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 4&#45;&gt;5 -->
 <g id="edge5" class="edge">
 <title>4&#45;&gt;5</title>
-<path fill="none" stroke="#000000" d="M172.9388,-222.8796C157.1516,-210.8368 139.9521,-197.7167 124.2759,-185.7586"/>
-<polygon fill="#000000" stroke="#000000" points="126.3063,-182.9053 116.2327,-179.623 122.0608,-188.4709 126.3063,-182.9053"/>
+<path fill="none" stroke="#000000" d="M148.2836,-222.8796C134.9358,-211.1138 120.4215,-198.3197 107.1096,-186.5855"/>
+<polygon fill="#000000" stroke="#000000" points="109.2448,-183.8019 99.4287,-179.8149 104.616,-189.0531 109.2448,-183.8019"/>
 </g>
 <!-- 6 -->
 <g id="node7" class="node">
 <title>6</title>
-<path fill="#8139e5" stroke="#000000" d="M282,-179.5C282,-179.5 173,-179.5 173,-179.5 167,-179.5 161,-173.5 161,-167.5 161,-167.5 161,-123.5 161,-123.5 161,-117.5 167,-111.5 173,-111.5 173,-111.5 282,-111.5 282,-111.5 288,-111.5 294,-117.5 294,-123.5 294,-123.5 294,-167.5 294,-167.5 294,-173.5 288,-179.5 282,-179.5"/>
-<text text-anchor="start" x="192.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="182" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 1</text>
-<text text-anchor="start" x="169.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 1]</text>
-<text text-anchor="start" x="169" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" stroke="#000000" d="M240,-179.5C240,-179.5 151,-179.5 151,-179.5 145,-179.5 139,-173.5 139,-167.5 139,-167.5 139,-123.5 139,-123.5 139,-117.5 145,-111.5 151,-111.5 151,-111.5 240,-111.5 240,-111.5 246,-111.5 252,-117.5 252,-123.5 252,-123.5 252,-167.5 252,-167.5 252,-173.5 246,-179.5 240,-179.5"/>
+<text text-anchor="start" x="167.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="158" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 1</text>
+<text text-anchor="start" x="148.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 1]</text>
+<text text-anchor="start" x="147" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 4&#45;&gt;6 -->
 <g id="edge6" class="edge">
 <title>4&#45;&gt;6</title>
-<path fill="none" stroke="#000000" d="M227.5,-222.8796C227.5,-212.2134 227.5,-200.7021 227.5,-189.9015"/>
-<polygon fill="#000000" stroke="#000000" points="231.0001,-189.8149 227.5,-179.8149 224.0001,-189.815 231.0001,-189.8149"/>
+<path fill="none" stroke="#000000" d="M195.5,-222.8796C195.5,-212.2134 195.5,-200.7021 195.5,-189.9015"/>
+<polygon fill="#000000" stroke="#000000" points="199.0001,-189.8149 195.5,-179.8149 192.0001,-189.815 199.0001,-189.8149"/>
 </g>
 <!-- 8 -->
 <g id="node9" class="node">
 <title>8</title>
-<path fill="#8139e5" stroke="#000000" d="M433,-179.5C433,-179.5 324,-179.5 324,-179.5 318,-179.5 312,-173.5 312,-167.5 312,-167.5 312,-123.5 312,-123.5 312,-117.5 318,-111.5 324,-111.5 324,-111.5 433,-111.5 433,-111.5 439,-111.5 445,-117.5 445,-123.5 445,-123.5 445,-167.5 445,-167.5 445,-173.5 439,-179.5 433,-179.5"/>
-<text text-anchor="start" x="343.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="333" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 3</text>
-<text text-anchor="start" x="320.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 3]</text>
-<text text-anchor="start" x="320" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" stroke="#000000" d="M371,-179.5C371,-179.5 282,-179.5 282,-179.5 276,-179.5 270,-173.5 270,-167.5 270,-167.5 270,-123.5 270,-123.5 270,-117.5 276,-111.5 282,-111.5 282,-111.5 371,-111.5 371,-111.5 377,-111.5 383,-117.5 383,-123.5 383,-123.5 383,-167.5 383,-167.5 383,-173.5 377,-179.5 371,-179.5"/>
+<text text-anchor="start" x="298.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="289" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 3</text>
+<text text-anchor="start" x="279.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 3]</text>
+<text text-anchor="start" x="278" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 7&#45;&gt;8 -->
 <g id="edge8" class="edge">
 <title>7&#45;&gt;8</title>
-<path fill="none" stroke="#000000" d="M445.4756,-222.8796C435.5773,-211.4436 424.8381,-199.0363 414.9178,-187.575"/>
-<polygon fill="#000000" stroke="#000000" points="417.3921,-185.0855 408.2012,-179.8149 412.0993,-189.6666 417.3921,-185.0855"/>
+<path fill="none" stroke="#000000" d="M383.7219,-222.8796C375.3464,-211.5536 366.2662,-199.2748 357.8589,-187.9058"/>
+<polygon fill="#000000" stroke="#000000" points="360.6357,-185.7743 351.8758,-179.8149 355.0075,-189.9364 360.6357,-185.7743"/>
 </g>
 <!-- 9 -->
 <g id="node10" class="node">
 <title>9</title>
-<path fill="#39e581" fill-opacity="0.498039" stroke="#000000" d="M645.5,-187C645.5,-187 475.5,-187 475.5,-187 469.5,-187 463.5,-181 463.5,-175 463.5,-175 463.5,-116 463.5,-116 463.5,-110 469.5,-104 475.5,-104 475.5,-104 645.5,-104 645.5,-104 651.5,-104 657.5,-110 657.5,-116 657.5,-116 657.5,-175 657.5,-175 657.5,-181 651.5,-187 645.5,-187"/>
-<text text-anchor="start" x="471.5" y="-171.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">sepal length (cm) ≤ 6.95</text>
-<text text-anchor="start" x="516.5" y="-156.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.444</text>
-<text text-anchor="start" x="515" y="-141.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 3</text>
-<text text-anchor="start" x="502.5" y="-126.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 2, 1]</text>
-<text text-anchor="start" x="497" y="-111.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
+<path fill="#39e581" fill-opacity="0.498039" stroke="#000000" d="M552,-187C552,-187 413,-187 413,-187 407,-187 401,-181 401,-175 401,-175 401,-116 401,-116 401,-110 407,-104 413,-104 413,-104 552,-104 552,-104 558,-104 564,-110 564,-116 564,-116 564,-175 564,-175 564,-181 558,-187 552,-187"/>
+<text text-anchor="start" x="409" y="-171.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">sepal length (cm) ≤ 6.95</text>
+<text text-anchor="start" x="447" y="-156.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.444</text>
+<text text-anchor="start" x="445" y="-141.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 3</text>
+<text text-anchor="start" x="435.5" y="-126.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 2, 1]</text>
+<text text-anchor="start" x="430" y="-111.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 7&#45;&gt;9 -->
 <g id="edge9" class="edge">
 <title>7&#45;&gt;9</title>
-<path fill="none" stroke="#000000" d="M509.1304,-222.8796C514.93,-214.1434 521.1059,-204.8404 527.0908,-195.8253"/>
-<polygon fill="#000000" stroke="#000000" points="530.1368,-197.5652 532.7517,-187.2981 524.3049,-193.6935 530.1368,-197.5652"/>
+<path fill="none" stroke="#000000" d="M438.2831,-222.8796C443.2237,-214.2335 448.4816,-205.0322 453.5833,-196.1042"/>
+<polygon fill="#000000" stroke="#000000" points="456.6928,-197.717 458.6154,-187.2981 450.6151,-194.244 456.6928,-197.717"/>
 </g>
 <!-- 10 -->
 <g id="node11" class="node">
 <title>10</title>
-<path fill="#39e581" stroke="#000000" d="M542,-68C542,-68 423,-68 423,-68 417,-68 411,-62 411,-56 411,-56 411,-12 411,-12 411,-6 417,0 423,0 423,0 542,0 542,0 548,0 554,-6 554,-12 554,-12 554,-56 554,-56 554,-62 548,-68 542,-68"/>
-<text text-anchor="start" x="447.5" y="-52.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="437" y="-37.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 2</text>
-<text text-anchor="start" x="424.5" y="-22.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 2, 0]</text>
-<text text-anchor="start" x="419" y="-7.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
+<path fill="#39e581" stroke="#000000" d="M463,-68C463,-68 366,-68 366,-68 360,-68 354,-62 354,-56 354,-56 354,-12 354,-12 354,-6 360,0 366,0 366,0 463,0 463,0 469,0 475,-6 475,-12 475,-12 475,-56 475,-56 475,-62 469,-68 463,-68"/>
+<text text-anchor="start" x="386.5" y="-52.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="377" y="-37.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 2</text>
+<text text-anchor="start" x="367.5" y="-22.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 2, 0]</text>
+<text text-anchor="start" x="362" y="-7.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 9&#45;&gt;10 -->
 <g id="edge10" class="edge">
 <title>9&#45;&gt;10</title>
-<path fill="none" stroke="#000000" d="M531.4557,-103.9815C525.2192,-95.0666 518.6187,-85.6313 512.3522,-76.6734"/>
-<polygon fill="#000000" stroke="#000000" points="515.0693,-74.4515 506.4692,-68.2637 509.3335,-78.464 515.0693,-74.4515"/>
+<path fill="none" stroke="#000000" d="M457.1793,-103.9815C451.7984,-95.1585 446.1068,-85.8258 440.6941,-76.9506"/>
+<polygon fill="#000000" stroke="#000000" points="443.5912,-74.9789 435.3962,-68.2637 437.6149,-78.6236 443.5912,-74.9789"/>
 </g>
 <!-- 11 -->
 <g id="node12" class="node">
 <title>11</title>
-<path fill="#8139e5" stroke="#000000" d="M693,-68C693,-68 584,-68 584,-68 578,-68 572,-62 572,-56 572,-56 572,-12 572,-12 572,-6 578,0 584,0 584,0 693,0 693,0 699,0 705,-6 705,-12 705,-12 705,-56 705,-56 705,-62 699,-68 693,-68"/>
-<text text-anchor="start" x="603.5" y="-52.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="593" y="-37.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 1</text>
-<text text-anchor="start" x="580.5" y="-22.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 1]</text>
-<text text-anchor="start" x="580" y="-7.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" stroke="#000000" d="M594,-68C594,-68 505,-68 505,-68 499,-68 493,-62 493,-56 493,-56 493,-12 493,-12 493,-6 499,0 505,0 505,0 594,0 594,0 600,0 606,-6 606,-12 606,-12 606,-56 606,-56 606,-62 600,-68 594,-68"/>
+<text text-anchor="start" x="521.5" y="-52.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="512" y="-37.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 1</text>
+<text text-anchor="start" x="502.5" y="-22.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 1]</text>
+<text text-anchor="start" x="501" y="-7.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 9&#45;&gt;11 -->
 <g id="edge11" class="edge">
 <title>9&#45;&gt;11</title>
-<path fill="none" stroke="#000000" d="M589.5443,-103.9815C595.7808,-95.0666 602.3813,-85.6313 608.6478,-76.6734"/>
-<polygon fill="#000000" stroke="#000000" points="611.6665,-78.464 614.5308,-68.2637 605.9307,-74.4515 611.6665,-78.464"/>
+<path fill="none" stroke="#000000" d="M507.4483,-103.9815C512.7501,-95.1585 518.3581,-85.8258 523.6911,-76.9506"/>
+<polygon fill="#000000" stroke="#000000" points="526.7605,-78.638 528.9111,-68.2637 520.7604,-75.0325 526.7605,-78.638"/>
 </g>
 <!-- 13 -->
 <g id="node14" class="node">
 <title>13</title>
-<path fill="#8139e5" fill-opacity="0.498039" stroke="#000000" d="M820,-306C820,-306 665,-306 665,-306 659,-306 653,-300 653,-294 653,-294 653,-235 653,-235 653,-229 659,-223 665,-223 665,-223 820,-223 820,-223 826,-223 832,-229 832,-235 832,-235 832,-294 832,-294 832,-300 826,-306 820,-306"/>
-<text text-anchor="start" x="661" y="-290.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">sepal width (cm) ≤ 3.1</text>
-<text text-anchor="start" x="698.5" y="-275.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.444</text>
-<text text-anchor="start" x="697" y="-260.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 3</text>
-<text text-anchor="start" x="684.5" y="-245.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 1, 2]</text>
-<text text-anchor="start" x="684" y="-230.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" fill-opacity="0.498039" stroke="#000000" d="M701.5,-306C701.5,-306 575.5,-306 575.5,-306 569.5,-306 563.5,-300 563.5,-294 563.5,-294 563.5,-235 563.5,-235 563.5,-229 569.5,-223 575.5,-223 575.5,-223 701.5,-223 701.5,-223 707.5,-223 713.5,-229 713.5,-235 713.5,-235 713.5,-294 713.5,-294 713.5,-300 707.5,-306 701.5,-306"/>
+<text text-anchor="start" x="571.5" y="-290.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">sepal width (cm) ≤ 3.1</text>
+<text text-anchor="start" x="603" y="-275.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.444</text>
+<text text-anchor="start" x="601" y="-260.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 3</text>
+<text text-anchor="start" x="591.5" y="-245.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 1, 2]</text>
+<text text-anchor="start" x="590" y="-230.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 12&#45;&gt;13 -->
 <g id="edge13" class="edge">
 <title>12&#45;&gt;13</title>
-<path fill="none" stroke="#000000" d="M742.5,-341.8796C742.5,-333.6838 742.5,-324.9891 742.5,-316.5013"/>
-<polygon fill="#000000" stroke="#000000" points="746.0001,-316.298 742.5,-306.2981 739.0001,-316.2981 746.0001,-316.298"/>
+<path fill="none" stroke="#000000" d="M638.5,-341.8796C638.5,-333.6838 638.5,-324.9891 638.5,-316.5013"/>
+<polygon fill="#000000" stroke="#000000" points="642.0001,-316.298 638.5,-306.2981 635.0001,-316.2981 642.0001,-316.298"/>
 </g>
 <!-- 16 -->
 <g id="node17" class="node">
 <title>16</title>
-<path fill="#8139e5" stroke="#000000" d="M979,-298.5C979,-298.5 862,-298.5 862,-298.5 856,-298.5 850,-292.5 850,-286.5 850,-286.5 850,-242.5 850,-242.5 850,-236.5 856,-230.5 862,-230.5 862,-230.5 979,-230.5 979,-230.5 985,-230.5 991,-236.5 991,-242.5 991,-242.5 991,-286.5 991,-286.5 991,-292.5 985,-298.5 979,-298.5"/>
-<text text-anchor="start" x="885.5" y="-283.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="870.5" y="-268.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 43</text>
-<text text-anchor="start" x="858" y="-253.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 43]</text>
-<text text-anchor="start" x="862" y="-238.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" stroke="#000000" d="M837,-298.5C837,-298.5 744,-298.5 744,-298.5 738,-298.5 732,-292.5 732,-286.5 732,-286.5 732,-242.5 732,-242.5 732,-236.5 738,-230.5 744,-230.5 744,-230.5 837,-230.5 837,-230.5 843,-230.5 849,-236.5 849,-242.5 849,-242.5 849,-286.5 849,-286.5 849,-292.5 843,-298.5 837,-298.5"/>
+<text text-anchor="start" x="762.5" y="-283.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="749.5" y="-268.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 43</text>
+<text text-anchor="start" x="740" y="-253.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 43]</text>
+<text text-anchor="start" x="742" y="-238.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 12&#45;&gt;16 -->
 <g id="edge16" class="edge">
 <title>12&#45;&gt;16</title>
-<path fill="none" stroke="#000000" d="M804.7558,-341.8796C822.9346,-329.7263 842.7546,-316.4759 860.7731,-304.4297"/>
-<polygon fill="#000000" stroke="#000000" points="863.0907,-307.0905 869.4588,-298.623 859.2003,-301.2712 863.0907,-307.0905"/>
+<path fill="none" stroke="#000000" d="M691.6622,-341.8796C706.8313,-330.0038 723.3384,-317.0804 738.4409,-305.2568"/>
+<polygon fill="#000000" stroke="#000000" points="740.9528,-307.7353 746.6692,-298.8149 736.6376,-302.2236 740.9528,-307.7353"/>
 </g>
 <!-- 14 -->
 <g id="node15" class="node">
 <title>14</title>
-<path fill="#8139e5" stroke="#000000" d="M797,-179.5C797,-179.5 688,-179.5 688,-179.5 682,-179.5 676,-173.5 676,-167.5 676,-167.5 676,-123.5 676,-123.5 676,-117.5 682,-111.5 688,-111.5 688,-111.5 797,-111.5 797,-111.5 803,-111.5 809,-117.5 809,-123.5 809,-123.5 809,-167.5 809,-167.5 809,-173.5 803,-179.5 797,-179.5"/>
-<text text-anchor="start" x="707.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="697" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 2</text>
-<text text-anchor="start" x="684.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 2]</text>
-<text text-anchor="start" x="684" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
+<path fill="#8139e5" stroke="#000000" d="M683,-179.5C683,-179.5 594,-179.5 594,-179.5 588,-179.5 582,-173.5 582,-167.5 582,-167.5 582,-123.5 582,-123.5 582,-117.5 588,-111.5 594,-111.5 594,-111.5 683,-111.5 683,-111.5 689,-111.5 695,-117.5 695,-123.5 695,-123.5 695,-167.5 695,-167.5 695,-173.5 689,-179.5 683,-179.5"/>
+<text text-anchor="start" x="610.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="601" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 2</text>
+<text text-anchor="start" x="591.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 0, 2]</text>
+<text text-anchor="start" x="590" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = virginica</text>
 </g>
 <!-- 13&#45;&gt;14 -->
 <g id="edge14" class="edge">
 <title>13&#45;&gt;14</title>
-<path fill="none" stroke="#000000" d="M742.5,-222.8796C742.5,-212.2134 742.5,-200.7021 742.5,-189.9015"/>
-<polygon fill="#000000" stroke="#000000" points="746.0001,-189.8149 742.5,-179.8149 739.0001,-189.815 746.0001,-189.8149"/>
+<path fill="none" stroke="#000000" d="M638.5,-222.8796C638.5,-212.2134 638.5,-200.7021 638.5,-189.9015"/>
+<polygon fill="#000000" stroke="#000000" points="642.0001,-189.8149 638.5,-179.8149 635.0001,-189.815 642.0001,-189.8149"/>
 </g>
 <!-- 15 -->
 <g id="node16" class="node">
 <title>15</title>
-<path fill="#39e581" stroke="#000000" d="M958,-179.5C958,-179.5 839,-179.5 839,-179.5 833,-179.5 827,-173.5 827,-167.5 827,-167.5 827,-123.5 827,-123.5 827,-117.5 833,-111.5 839,-111.5 839,-111.5 958,-111.5 958,-111.5 964,-111.5 970,-117.5 970,-123.5 970,-123.5 970,-167.5 970,-167.5 970,-173.5 964,-179.5 958,-179.5"/>
-<text text-anchor="start" x="863.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
-<text text-anchor="start" x="853" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 1</text>
-<text text-anchor="start" x="840.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 1, 0]</text>
-<text text-anchor="start" x="835" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
+<path fill="#39e581" stroke="#000000" d="M822,-179.5C822,-179.5 725,-179.5 725,-179.5 719,-179.5 713,-173.5 713,-167.5 713,-167.5 713,-123.5 713,-123.5 713,-117.5 719,-111.5 725,-111.5 725,-111.5 822,-111.5 822,-111.5 828,-111.5 834,-117.5 834,-123.5 834,-123.5 834,-167.5 834,-167.5 834,-173.5 828,-179.5 822,-179.5"/>
+<text text-anchor="start" x="745.5" y="-164.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">gini = 0.0</text>
+<text text-anchor="start" x="736" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 1</text>
+<text text-anchor="start" x="726.5" y="-134.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 1, 0]</text>
+<text text-anchor="start" x="721" y="-119.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = versicolor</text>
 </g>
 <!-- 13&#45;&gt;15 -->
 <g id="edge15" class="edge">
 <title>13&#45;&gt;15</title>
-<path fill="none" stroke="#000000" d="M797.0612,-222.8796C812.8484,-210.8368 830.0479,-197.7167 845.7241,-185.7586"/>
-<polygon fill="#000000" stroke="#000000" points="847.9392,-188.4709 853.7673,-179.623 843.6937,-182.9053 847.9392,-188.4709"/>
+<path fill="none" stroke="#000000" d="M685.7164,-222.8796C699.0642,-211.1138 713.5785,-198.3197 726.8904,-186.5855"/>
+<polygon fill="#000000" stroke="#000000" points="729.384,-189.0531 734.5713,-179.8149 724.7552,-183.8019 729.384,-189.0531"/>
 </g>
 </g>
 </svg>
@@ -14260,7 +14269,7 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14280,7 +14289,7 @@ Probabilitas tiap fitur bila diberikan kelas:
 
 <div class="output_text output_subarea output_execute_result">
 <pre>KNeighborsClassifier(algorithm=&#39;auto&#39;, leaf_size=30, metric=&#39;minkowski&#39;,
-           metric_params=None, n_jobs=None, n_neighbors=5, p=2,
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
            weights=&#39;uniform&#39;)</pre>
 </div>
 
@@ -14302,7 +14311,7 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mlp_model</span> <span class="o">=</span> <span class="n">mlp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">mlp_model</span> <span class="o">=</span> <span class="n">mlp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
 <span class="n">mlp_model</span>
 </pre></div>
 
@@ -14326,9 +14335,9 @@ Probabilitas tiap fitur bila diberikan kelas:
        beta_2=0.999, early_stopping=False, epsilon=1e-08,
        hidden_layer_sizes=(5, 2), learning_rate=&#39;constant&#39;,
        learning_rate_init=0.001, max_iter=200, momentum=0.9,
-       n_iter_no_change=10, nesterovs_momentum=True, power_t=0.5,
-       random_state=1, shuffle=True, solver=&#39;lbfgs&#39;, tol=0.0001,
-       validation_fraction=0.1, verbose=False, warm_start=False)</pre>
+       nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
+       solver=&#39;lbfgs&#39;, tol=0.0001, validation_fraction=0.1, verbose=False,
+       warm_start=False)</pre>
 </div>
 
 </div>
@@ -14356,7 +14365,7 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14376,25 +14385,25 @@ Probabilitas tiap fitur bila diberikan kelas:
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bayes_model</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">bayes_model</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">prediction_bayes</span> <span class="o">=</span> <span class="n">bayes_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">precision_bayes</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_bayes</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="n">recall_bayes</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_bayes</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">precision_bayes</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_bayes</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">recall_bayes</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_bayes</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_bayes</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_bayes</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_bayes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_bayes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_bayes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_bayes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
 
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_bayes</span><span class="p">))</span>  
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_bayes</span><span class="p">))</span>  
 </pre></div>
 
     </div>
@@ -14412,19 +14421,22 @@ Probabilitas tiap fitur bila diberikan kelas:
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Kinerja: 
-	1. Akurasi: 100.000000%
+	1. Akurasi: 93.333333%
 	2. Presisi tiap kelas:
 		setosa: 100.0%
-		versicolor: 100.0%
+		versicolor: 83.33333333333334%
 		virginica: 100.0%
+
 	3. Recall setiap kelas:
 		setosa: 100.0%
 		versicolor: 100.0%
-		virginica: 100.0%
+		virginica: 85.71428571428571%
+
+
 Confusion Matrix: 
-[[5 0 0]
- [0 6 0]
- [0 0 4]]
+[[3 0 0]
+ [0 5 0]
+ [0 1 6]]
 </pre>
 </div>
 </div>
@@ -14445,24 +14457,24 @@ Confusion Matrix:
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dtl_model</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">dtl_model</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">prediction_dtl</span> <span class="o">=</span> <span class="n">dtl_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">precision_dtl</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_dtl</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="n">recall_dtl</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_dtl</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">precision_dtl</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_dtl</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">recall_dtl</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_dtl</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_dtl</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_dtl</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_dtl</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_dtl</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_dtl</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_dtl</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
 
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_dtl</span><span class="p">))</span>  
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_dtl</span><span class="p">))</span>  
 </pre></div>
 
     </div>
@@ -14480,19 +14492,21 @@ Confusion Matrix:
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Kinerja: 
-	1. Akurasi: 100.000000%
+	1. Akurasi: 93.333333%
 	2. Presisi tiap kelas:
 		setosa: 100.0%
-		versicolor: 100.0%
+		versicolor: 83.33333333333334%
 		virginica: 100.0%
 	3. Recall setiap kelas:
 		setosa: 100.0%
 		versicolor: 100.0%
-		virginica: 100.0%
+		virginica: 85.71428571428571%
+
+
 Confusion Matrix: 
-[[5 0 0]
- [0 6 0]
- [0 0 4]]
+[[3 0 0]
+ [0 5 0]
+ [0 1 6]]
 </pre>
 </div>
 </div>
@@ -14513,24 +14527,24 @@ Confusion Matrix:
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">prediction_knn</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">precision_knn</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_knn</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="n">recall_knn</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_knn</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">precision_knn</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_knn</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">recall_knn</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_knn</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_knn</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_knn</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_knn</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_knn</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_knn</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_knn</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
 
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_knn</span><span class="p">))</span>  
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_knn</span><span class="p">))</span>  
 </pre></div>
 
     </div>
@@ -14548,19 +14562,21 @@ Confusion Matrix:
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Kinerja: 
-	1. Akurasi: 100.000000%
+	1. Akurasi: 93.333333%
 	2. Presisi tiap kelas:
 		setosa: 100.0%
-		versicolor: 100.0%
+		versicolor: 83.33333333333334%
 		virginica: 100.0%
 	3. Recall setiap kelas:
 		setosa: 100.0%
 		versicolor: 100.0%
-		virginica: 100.0%
+		virginica: 85.71428571428571%
+
+
 Confusion Matrix: 
-[[5 0 0]
- [0 6 0]
- [0 0 4]]
+[[3 0 0]
+ [0 5 0]
+ [0 1 6]]
 </pre>
 </div>
 </div>
@@ -14581,24 +14597,24 @@ Confusion Matrix:
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mlp_model</span> <span class="o">=</span> <span class="n">mlp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">mlp_model</span> <span class="o">=</span> <span class="n">mlp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">prediction_mlp</span> <span class="o">=</span> <span class="n">mlp_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">precision_mlp</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_mlp</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="n">recall_mlp</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_mlp</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">precision_mlp</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_mlp</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">recall_mlp</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_mlp</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_mlp</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">1. Akurasi: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction_mlp</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">2. Presisi tiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_mlp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision_mlp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">3. Recall setiap kelas:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_mlp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">recall_mlp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span>
 
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_mlp</span><span class="p">))</span>  
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prediction_mlp</span><span class="p">))</span>  
 </pre></div>
 
     </div>
@@ -14616,19 +14632,21 @@ Confusion Matrix:
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Kinerja: 
-	1. Akurasi: 26.666667%
+	1. Akurasi: 20.000000%
 	2. Presisi tiap kelas:
-		setosa: 0.0%
+		setosa: 20.0%
 		versicolor: 0.0%
-		virginica: 26.666666666666668%
+		virginica: 0.0%
 	3. Recall setiap kelas:
-		setosa: 0.0%
+		setosa: 100.0%
 		versicolor: 0.0%
-		virginica: 100.0%
+		virginica: 0.0%
+
+
 Confusion Matrix: 
-[[0 0 5]
- [0 0 6]
- [0 0 4]]
+[[3 0 0]
+ [5 0 0]
+ [7 0 0]]
 </pre>
 </div>
 </div>
@@ -14639,7 +14657,7 @@ Confusion Matrix:
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/usr/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples.
+<pre>/usr/lib/anaconda2/lib/python2.7/site-packages/sklearn/metrics/classification.py:1135: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples.
   &#39;precision&#39;, &#39;predicted&#39;, average, warn_for)
 </pre>
 </div>
@@ -14668,15 +14686,15 @@ Confusion Matrix:
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scores_bayes</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scores_bayes</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores_bayes</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
     <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_bayes</span><span class="p">))</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_bayes</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14704,6 +14722,7 @@ Fold ke-7 = 0.866667
 Fold ke-8 = 1.000000
 Fold ke-9 = 1.000000
 Fold ke-10 = 1.000000
+
 Rata-rata = 0.953333
 </pre>
 </div>
@@ -14725,15 +14744,15 @@ Rata-rata = 0.953333
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scores_dtl</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">dtl</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scores_dtl</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">dtl</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores_dtl</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
     <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_dtl</span><span class="p">))</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_dtl</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14758,10 +14777,11 @@ Fold ke-4 = 0.933333
 Fold ke-5 = 0.933333
 Fold ke-6 = 0.866667
 Fold ke-7 = 0.933333
-Fold ke-8 = 1.000000
+Fold ke-8 = 0.933333
 Fold ke-9 = 1.000000
 Fold ke-10 = 1.000000
-Rata-rata = 0.960000
+
+Rata-rata = 0.953333
 </pre>
 </div>
 </div>
@@ -14782,15 +14802,15 @@ Rata-rata = 0.960000
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scores_knn</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">kNN</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scores_knn</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">kNN</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores_knn</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
     <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_knn</span><span class="p">))</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_knn</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14818,6 +14838,7 @@ Fold ke-7 = 0.933333
 Fold ke-8 = 1.000000
 Fold ke-9 = 1.000000
 Fold ke-10 = 1.000000
+
 Rata-rata = 0.966667
 </pre>
 </div>
@@ -14839,15 +14860,15 @@ Rata-rata = 0.966667
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scores_mlp</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">mlp</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scores_mlp</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">mlp</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dfiris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Kinerja: &quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores_mlp</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Fold ke-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot; = </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">score</span><span class="p">)</span>
     <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-<span class="nb">print</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_mlp</span><span class="p">))</span>
+<span class="k">print</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Rata-rata = </span><span class="si">%f</span><span class="s2">&quot;</span><span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores_mlp</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14875,6 +14896,7 @@ Fold ke-7 = 0.333333
 Fold ke-8 = 0.333333
 Fold ke-9 = 0.333333
 Fold ke-10 = 0.333333
+
 Rata-rata = 0.333333
 </pre>
 </div>
@@ -14896,7 +14918,7 @@ Rata-rata = 0.333333
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="s1">&#39;iris_NB.mdl&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="s1">&#39;iris_NB.mdl&#39;</span><span class="p">)</span>
 <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dtl</span><span class="p">,</span> <span class="s1">&#39;iris_DT.mdl&#39;</span><span class="p">)</span>
 <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">kNN</span><span class="p">,</span> <span class="s1">&#39;iris_kNN.mdl&#39;</span><span class="p">)</span>
 <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">mlp</span><span class="p">,</span> <span class="s1">&#39;iris_MLP.mdl&#39;</span><span class="p">)</span>
@@ -14930,7 +14952,236 @@ Rata-rata = 0.333333
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="7.-Sumber">7. Sumber<a class="anchor-link" href="#7.-Sumber">&#182;</a></h2>
+<h2 id="7.-Membaca-model-dari-File-External">7. Membaca model dari File External<a class="anchor-link" href="#7.-Membaca-model-dari-File-External">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">gnb</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;iris_NB.mdl&#39;</span><span class="p">)</span>
+<span class="n">dtl</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;iris_DT.mdl&#39;</span><span class="p">)</span>
+<span class="n">kNN</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;iris_kNN.mdl&#39;</span><span class="p">)</span>
+<span class="n">mlp</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;iris_MLP.mdl&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="8.-Membuat-Instance-Baru-dengan-memberikan-nilai-pada-Atribut">8. Membuat Instance Baru dengan memberikan nilai pada Atribut<a class="anchor-link" href="#8.-Membuat-Instance-Baru-dengan-memberikan-nilai-pada-Atribut">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">example_iris</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="n">example_iris</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">example_iris</span><span class="p">])</span>
+                
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Atribut instance baru:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">example_iris</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Atribut instance baru:
+(&#39;sepal length (cm):&#39;, 3.4)
+(&#39;sepal width (cm):&#39;, 3.3)
+(&#39;petal length (cm):&#39;, 2.4)
+(&#39;petal width (cm):&#39;, 0.5)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="9.-Klasifikasi-menggunakan-Model">9. Klasifikasi menggunakan Model<a class="anchor-link" href="#9.-Klasifikasi-menggunakan-Model">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="9.1-Na&#239;ve-Bayes">9.1 Na&#239;ve Bayes<a class="anchor-link" href="#9.1-Na&#239;ve-Bayes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">gnb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example_iris</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;setosa&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="9.2-Decision-Tree-Learning">9.2 Decision Tree Learning<a class="anchor-link" href="#9.2-Decision-Tree-Learning">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">dtl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example_iris</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;setosa&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="9.3-kNN">9.3 <em>kNN</em><a class="anchor-link" href="#9.3-kNN">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example_iris</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;setosa&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="9.4-Neural-Network-MLP">9.4 Neural Network MLP<a class="anchor-link" href="#9.4-Neural-Network-MLP">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">dfiris</span><span class="o">.</span><span class="n">target_names</span><span class="p">[</span><span class="n">mlp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example_iris</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;setosa&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="10.-Sumber">10. Sumber<a class="anchor-link" href="#10.-Sumber">&#182;</a></h2>
 </div>
 </div>
 </div>
